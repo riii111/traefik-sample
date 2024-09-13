@@ -1,6 +1,13 @@
 # Traefikお試し
 
-NextCloudを構築してみた
+TraefikでNextCloudを構築してみた
+
+## Traefik - Dashboard
+![image](https://github.com/user-attachments/assets/b1bb8519-9dc8-4b19-8a2d-a0b15a62396b)
+
+## NextCloud
+![image](https://github.com/user-attachments/assets/39ffa296-cf75-4290-af32-ba0d66394d63)
+
 
 ## 備考
 
