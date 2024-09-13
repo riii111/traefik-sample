@@ -7,7 +7,7 @@
 services:
   db:
     container_name: nextcloud-db
-    image: mariadb:10.5
+    image: mariadb:latest
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     restart: always
     volumes:
@@ -27,7 +27,7 @@ services:
       - app-network
 
   redis:
-    image: redis:7.4
+    image: redis:latest
     container_name: nextcloud-cache
     restart: always
     volumes:
