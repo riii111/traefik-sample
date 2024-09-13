@@ -1,1 +1,2 @@
 .env
+log/traefik/access.log

@@ -11,6 +11,10 @@ api:
 log:
   level: DEBUG
 
+accessLog:
+  filePath: /log/traefik/access.log
+  format: json
+
 providers:
   docker:
     exposedByDefault: false
