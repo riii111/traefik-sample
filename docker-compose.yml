@@ -6,6 +6,8 @@ services:
       traefik.enable: true
       traefik.http.routers.whoami.rule: Host(`whoami.localhost`)
       traefik.http.routers.whoami.entrypoints: web
+      traefik.http.routers.whoami.middlewares: auth
+      traefik.http.middlewares.auth.basicauth.users: traefik:$$apr1$$O.gNZ5Wi$$METL47gzUCYaBQbtNi7WK1
     restart: always
     networks:
       - app-network
