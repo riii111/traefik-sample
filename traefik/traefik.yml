@@ -6,6 +6,9 @@ api:
   insecure: false
   dashboard: true
 
+log:
+  level: TRACE
+
 providers:
   docker:
     exposedByDefault: false

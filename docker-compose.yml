@@ -1,4 +1,15 @@
 services:
+  whoami:
+    image: traefik/whoami
+    container_name: whoami
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami.rule: Host(`whoami.localhost`)
+      traefik.http.routers.whoami.entrypoints: web
+    restart: always
+    networks:
+      - app-network
+
   traefik:
     image: traefik:latest
     container_name: traefik
