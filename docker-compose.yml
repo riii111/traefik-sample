@@ -1,4 +1,12 @@
-# secrets:
+secrets:
+  mysql_db:
+    file: ${HOME}/nextcloud_secrets/.MYSQL_DATABASE
+  mysql_user:
+    file: ${HOME}/nextcloud_secrets/.MYSQL_USER
+  mysql_password:
+    file: ${HOME}/nextcloud_secrets/.MYSQL_PASSWORD
+  mysql_root_password:
+    file: ${HOME}/nextcloud_secrets/.MYSQL_ROOT_PASSWORD
 #   aws_shared_credentials:
 #     file: ~/.aws/secrets/aws_shared_credentials.secret
 #   aws_hosted_zone_id:
@@ -33,6 +41,38 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - cache:/data
+    networks:
+      - app-network
+
+  app:
+    image: nextcloud:latest
+    container_name: nextcloud
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html
+      - /etc/localtime:/etc/localtime:ro
+      - ${HOME}/nextcloud_secrets:/mnt/nextcloud_secrets:ro
+    environment:
+      MYSQL_HOST: db
+      REDIS_HOST: redis
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_db
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+      PHP_MEMORY_LIMIT: 4096M
+      PHP_UPLOAD_LIMIT: 4096M
+    depends_on:
+      - db
+      - redis
+    secrets:
+      - mysql_password
+      - mysql_db
+      - mysql_user
+    labels:
+      traefik.enable: true
+      traefik.http.routers.nextcloud.rule: Host(`nextcloud.localhost`)
+      traefik.http.routers.nextcloud.entrypoints: web
+      # traefik.http.routers.nextcloud.entrypoints: websecure  # HTTPS利用する場合はこちらを有効にする
+      # traefik.http.routers.nextcloud.tls.certresolver: router53 # Route53のDNS-01 Challengeを利用する場合はこちらを有効にする
     networks:
       - app-network
 
@@ -74,3 +114,8 @@ services:
 networks:
   app-network:
     external: false
+
+volumes:
+  nextcloud:
+  db:
+  cache:
