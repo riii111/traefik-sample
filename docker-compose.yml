@@ -5,6 +5,37 @@
 #     file: ~/.aws/secrets/aws_hosted_zone_id.secret
 
 services:
+  db:
+    container_name: nextcloud-db
+    image: mariadb:10.5
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+      MYSQL_DATABASE_FILE: /run/secrets/mysql_db
+      MYSQL_USER_FILE: /run/secrets/mysql_user
+    secrets:
+      - mysql_root_password
+      - mysql_password
+      - mysql_db
+      - mysql_user
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7.4
+    container_name: nextcloud-cache
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - cache:/data
+    networks:
+      - app-network
+
   whoami:
     image: traefik/whoami
     container_name: whoami
