@@ -67,12 +67,19 @@ services:
       - mysql_password
       - mysql_db
       - mysql_user
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
     labels:
       traefik.enable: true
       traefik.http.routers.nextcloud.rule: Host(`nextcloud.localhost`)
       traefik.http.routers.nextcloud.entrypoints: web
       # traefik.http.routers.nextcloud.entrypoints: websecure  # HTTPS利用する場合はこちらを有効にする
       # traefik.http.routers.nextcloud.tls.certresolver: router53 # Route53のDNS-01 Challengeを利用する場合はこちらを有効にする
+      traefik.http.routers.nextcloud.healthcheck.path: /status.php
     networks:
       - app-network
 
