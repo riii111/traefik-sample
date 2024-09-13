@@ -21,7 +21,7 @@ services:
       - app-network
 
   traefik:
-    image: traefik:latest
+    image: traefik:3.1.2
     container_name: traefik
     restart: always
     ports:
