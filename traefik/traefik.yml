@@ -1,6 +1,8 @@
 entryPoints:
   web:
     address: :80
+  # websecure:
+  #   address: :443
 
 api:
   insecure: false
@@ -12,5 +14,14 @@ log:
 providers:
   docker:
     exposedByDefault: false
-  file:
-    filename: /etc/traefik/external.yml
+  # file:
+  #   filename: /etc/traefik/external.yml
+# certificatesResolvers:
+#   router53:
+#     acme:
+#       dnsChallenge:
+#         provider: route53 # DNS-01 Challenge
+#       email: ${EMAIL}
+#       storage: /letsencrypt/acme.json
+#       keyType: EC384
+#       caServer: https://acme-staging-v02.api.letsencrypt.org/directory
