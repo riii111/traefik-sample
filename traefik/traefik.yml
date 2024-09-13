@@ -12,3 +12,5 @@ log:
 providers:
   docker:
     exposedByDefault: false
+  file:
+    filename: /etc/traefik/external.yml
